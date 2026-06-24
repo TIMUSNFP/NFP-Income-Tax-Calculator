@@ -635,6 +635,23 @@ header {
 .opt-box-body { font-size: 12.5px; color: var(--text); line-height: 1.5; }
 .opt-saving    { font-weight: 700; color: var(--success); }
 
+/* ─── Recommendations section ─────────────────────────────────────────── */
+.rec-section-hd { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:700; color:var(--text); padding:18px 20px 14px; border-bottom:1px solid var(--border); }
+.rec-pot-badge { margin-left:auto; font-size:11px; font-weight:700; color:var(--primary); background:var(--primary-light); padding:3px 10px; border-radius:20px; white-space:nowrap; }
+.rec-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:14px 16px 6px; }
+@media (max-width:580px) { .rec-grid { grid-template-columns:1fr; } }
+.rec-card { background:var(--surface2); border:1.5px solid var(--border); border-radius:var(--r-lg); padding:14px; }
+.rec-card.rec-hot { border-color:var(--primary); background:var(--primary-bg); }
+.rec-card-hd { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; margin-bottom:8px; }
+.rec-card-ttl { font-size:13px; font-weight:700; color:var(--text); line-height:1.35; }
+.rec-save-badge { font-size:11px; font-weight:700; color:#fff; background:var(--primary); border-radius:20px; padding:2px 9px; white-space:nowrap; flex-shrink:0; }
+.rec-card-body { font-size:12.5px; color:var(--text-secondary); line-height:1.65; }
+.rec-card-body strong { color:var(--text); }
+.rec-breakeven { margin:0 16px 14px; background:var(--surface2); border:1.5px solid var(--border); border-radius:var(--r-lg); padding:12px 16px; }
+.rec-breakeven-lbl { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:6px; }
+.rec-breakeven-txt { font-size:13px; color:var(--text-secondary); line-height:1.65; }
+.rec-breakeven-txt strong { color:var(--text); }
+
 /* Waterfall */
 .slab-row {
   display: flex;
@@ -916,7 +933,6 @@ header {
 }
 .mode-tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-xs); }
 .mode-tab:hover:not(.active) { color: var(--text); }
-.mode-note { font-size: 11px; color: var(--muted); margin-left: auto; }
 
 /* ─── Quick / Detail visibility ──────────────────────────────────────────────── */
 .quick-only { display: none; }
@@ -1107,7 +1123,6 @@ header {
       <button class="mode-tab active" id="btn-quick" onclick="setMode('quick')" type="button">Quick</button>
       <button class="mode-tab" id="btn-detailed" onclick="setMode('detailed')" type="button">Detailed</button>
     </div>
-    <span class="mode-note" id="mode-note">Salary + deductions total · ~90% accurate</span>
   </div>
   <div class="inputs-grid">
   <div class="inputs-col">
@@ -1453,15 +1468,12 @@ function setMode(mode) {
   const panel  = document.getElementById('calculator');
   const btnQ   = document.getElementById('btn-quick');
   const btnD   = document.getElementById('btn-detailed');
-  const note   = document.getElementById('mode-note');
   if (mode === 'quick') {
     panel.classList.add('is-quick');
     btnQ.classList.add('active');    btnD.classList.remove('active');
-    note.textContent = 'Salary + deductions total · ~90% accurate';
   } else {
     panel.classList.remove('is-quick');
     btnD.classList.add('active');    btnQ.classList.remove('active');
-    note.textContent = 'All income sources · precise deductions';
   }
   render();
 }
@@ -1673,26 +1685,8 @@ function render() {
 
   html += `</div>`; // end compare-grid
 
-  // ── Break-even insight card ──
-  html += buildBreakEvenCard(data, recommended);
-
-  // ── Action Plan (optimization tips) ──
-  const tips = buildOptimizationTips(data);
-  if (tips.length) {
-    const totalPotential = tips.reduce((sum, t) => sum + (t.saving || 0), 0);
-    const actionTitle = totalPotential > 0
-      ? `Your Action Plan: cut up to ${fmt(totalPotential)} from your tax bill`
-      : `Your Action Plan: reduce your tax further`;
-    html += `<div class="card">
-      <div class="card-title">${icon.bulb} ${actionTitle}</div>`;
-    tips.forEach(t => {
-      html += `<div class="opt-box">
-        <div class="opt-box-title">${icon.bulb} ${t.title}</div>
-        <div class="opt-box-body">${t.body}</div>
-      </div>`;
-    });
-    html += `</div>`;
-  }
+  // ── Recommendations & savings ──
+  html += buildRecommendationsSection(data, recommended);
 
   // ── Tax bracket waterfall ──
   const slabDetails = recommended === 'new' ? n.slabDetails : o.slabDetails;
@@ -1847,6 +1841,123 @@ function buildNarrativeCard(data, recommended) {
       <p>${line2}</p>
     </div>
   </div>`;
+}
+
+function buildRecommendationsSection(data, recommended) {
+  const { new: n, old: o } = data;
+  const age        = document.getElementById('age').value;
+  const isSalaried = document.getElementById('taxpayerType').value === 'salaried';
+  const yp         = YEAR_PARAMS[document.getElementById('assessmentYear').value];
+  const bestTax    = recommended === 'new' ? n.total : o.total;
+  const cards      = [];
+
+  // Marginal rate helpers (with cess)
+  const mrNew = (n.taxableNormal > 2400000 ? 0.30 : n.taxableNormal > 2000000 ? 0.25 : n.taxableNormal > 1600000 ? 0.20 : n.taxableNormal > 1200000 ? 0.15 : n.taxableNormal > 800000 ? 0.10 : 0.05) * 1.04;
+  const mrOld = (o.taxableNormal > 1000000 ? 0.30 : o.taxableNormal > 500000 ? 0.20 : 0.05) * 1.04;
+
+  // 1. Zero-tax proximity (new regime only)
+  const zeroThreshold = isSalaried ? 1275000 : 1200000;
+  const gapToZero = zeroThreshold - n.taxableTotal;
+  if (recommended === 'new' && n.total > 0 && gapToZero > 0 && gapToZero < 600000) {
+    cards.push({ hot: true, title: 'Almost zero tax — you\'re close!', saving: n.total,
+      body: `You're just <strong>${fmt(Math.round(gapToZero))}</strong> above the zero-tax threshold (₹${isSalaried ? '12.75L' : '12L'}). Ask your employer to increase NPS contributions under 80CCD(2) — that directly reduces taxable income in <em>both regimes</em> and could take your bill to <strong>₹0</strong>.` });
+  }
+
+  // 2. NPS 80CCD(2) headroom
+  const basicDA = v('basicDA');
+  if (basicDA > 0) {
+    const maxNPS     = Math.min(basicDA * yp.npsRate, 750000);
+    const headroomNPS = maxNPS - data.nps80CCD2;
+    if (headroomNPS > 1000) {
+      const saving = Math.round(headroomNPS * mrNew);
+      cards.push({ hot: false, title: 'Maximise Employer NPS 80CCD(2)', saving: saving > 500 ? saving : null,
+        body: `Your employer can contribute <strong>${fmt(Math.round(headroomNPS))} more</strong> into your NPS (within the ${(yp.npsRate * 100).toFixed(0)}% of Basic+DA cap, max ₹7.5L/yr). This is the <strong>only deduction that works in both regimes</strong>. Raise it with HR before March — it's a salary restructuring, not a personal investment.` });
+    }
+  }
+
+  // 3. 80C gap (old regime)
+  if (recommended === 'old') {
+    const gap80C = 150000 - Math.min(v('d80C'), 150000);
+    if (gap80C > 1000) {
+      cards.push({ hot: false, title: '80C Room Remaining', saving: Math.round(gap80C * mrOld),
+        body: `<strong>${fmt(gap80C)}</strong> of your ₹1.5L 80C limit is still open. Options ranked by liquidity: ELSS mutual funds (3-yr lock), PPF (safe, 7.1% p.a., long-term), or life insurance premium. Invest before 31 March to count for this FY.` });
+    }
+  }
+
+  // 4. 80D gap (old regime)
+  if (recommended === 'old') {
+    const max80D   = (age === '60to80' || age === '80plus') ? 50000 : 25000;
+    const gap80D   = max80D - v('d80D_self');
+    if (gap80D > 500) {
+      cards.push({ hot: false, title: 'Health Insurance 80D', saving: Math.round(gap80D * mrOld),
+        body: `<strong>${fmt(gap80D)}</strong> of your ₹${max80D / 1000}K personal 80D limit is unclaimed. A good health policy costs less than the tax saved, and parents' premiums qualify under a separate ₹25K–₹50K 80D limit. Preventive health check-up (up to ₹5K) also counts within this limit.` });
+    }
+  }
+
+  // 5. LTCG harvesting
+  const ltcg = v('ltcg112A');
+  const taxFreeRoom = yp.ltcg112aExemption - ltcg;
+  if (ltcg >= 0 && taxFreeRoom > 5000) {
+    cards.push({ hot: false, title: 'LTCG Tax Harvesting', saving: null,
+      body: `<strong>${fmt(Math.round(taxFreeRoom))}</strong> of annual equity LTCG exemption (₹${fmt(yp.ltcg112aExemption)}) is unused. Sell equity MF / listed shares with unrealised long-term gains up to this amount before 31 March and <em>immediately rebuy</em> — your cost basis resets higher with zero tax today, reducing the tax on future gains.` });
+  }
+
+  // 6. Advance tax reminder
+  if (bestTax > 10000) {
+    cards.push({ hot: false, title: 'Advance Tax — Pay Quarterly', saving: null,
+      body: `Your estimated tax of <strong>${fmt(Math.round(bestTax))}</strong> crosses the ₹10K threshold. Installment schedule: <strong>15%</strong> by 15 Jun · <strong>45%</strong> by 15 Sep · <strong>75%</strong> by 15 Dec · <strong>100%</strong> by 15 Mar. Missing dates attracts ~1% per month interest u/s 234B & 234C.` });
+  }
+
+  // Break-even analysis (full-width strip at bottom)
+  const saved = Math.abs(o.total - n.total);
+  let breakEvenHtml = '';
+  if (saved >= 500) {
+    const breakEvenDelta = Math.round(saved / mrOld);
+    const currentDed     = Math.round(o.deductions || 0);
+    if (recommended === 'new') {
+      const need = currentDed + breakEvenDelta;
+      breakEvenHtml = `New Regime saves you <strong>${fmt(Math.round(saved))}</strong>. For Old Regime to match, you'd need <strong>${fmt(need)}</strong> in total deductions — <strong>${fmt(breakEvenDelta)} more</strong> than your current <strong>${fmt(currentDed)}</strong>. Re-check every year after the Budget.`;
+    } else {
+      const need = Math.max(0, currentDed - breakEvenDelta);
+      breakEvenHtml = `Old Regime wins by <strong>${fmt(Math.round(saved))}</strong> on the strength of your <strong>${fmt(currentDed)}</strong> in deductions. If those ever fall below <strong>~${fmt(need)}</strong> — say, after clearing a home loan — New Regime flips to being the better pick.`;
+    }
+  }
+
+  if (!cards.length && !breakEvenHtml) return '';
+
+  const totalPotential = cards.reduce((s, c) => s + (c.saving || 0), 0);
+  const bulbIcon  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 1 4 12.9V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.1A7 7 0 0 1 12 2z"/></svg>`;
+  const scaleIcon = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M3 9l9-6 9 6M3 15l9 6 9-6"/></svg>`;
+
+  let html = `<div class="card" style="padding:0;overflow:hidden;">
+    <div class="rec-section-hd">
+      ${bulbIcon} Your Tax Savings Opportunities
+      ${totalPotential > 500 ? `<span class="rec-pot-badge">Save up to ${fmt(Math.round(totalPotential))}</span>` : ''}
+    </div>`;
+
+  if (cards.length) {
+    html += `<div class="rec-grid">`;
+    cards.forEach(c => {
+      html += `<div class="rec-card${c.hot ? ' rec-hot' : ''}">
+        <div class="rec-card-hd">
+          <div class="rec-card-ttl">${c.title}</div>
+          ${c.saving ? `<span class="rec-save-badge">${fmt(Math.round(c.saving))}</span>` : ''}
+        </div>
+        <div class="rec-card-body">${c.body}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (breakEvenHtml) {
+    html += `<div class="rec-breakeven">
+      <div class="rec-breakeven-lbl">${scaleIcon} Break-even Analysis</div>
+      <div class="rec-breakeven-txt">${breakEvenHtml}</div>
+    </div>`;
+  }
+
+  html += `</div>`;
+  return html;
 }
 
 function buildOptimizationTips(data) {
