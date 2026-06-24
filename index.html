@@ -3,51 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NFP Income Tax Calculator — FY 2025-26 / AY 2026-27</title>
+<title>NFP Income Tax Calculator: Old vs New | FY 2025-26</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 /* ─── NFP Design System ─────────────────────────────────────────────────────── */
 :root {
-  /* NFP Brand */
+  /* NFP Brand — #FF5000 Orange + #333333 Charcoal + #FFFFFF White */
   --primary:        #FF5000;
   --primary-dark:   #D94400;
-  --primary-light:  rgba(255,80,0,0.08);
+  --primary-light:  rgba(255,80,0,0.09);
   --primary-bg:     #FFF5F0;
 
   /* Regime identifiers */
-  --new-color:      #FF5000;   /* NFP Orange → New Regime */
-  --new-light:      rgba(255,80,0,0.08);
-  --old-color:      #7C3AED;   /* Purple → Old Regime */
-  --old-light:      rgba(124,58,237,0.08);
+  --new-color:      #FF5000;
+  --new-light:      rgba(255,80,0,0.09);
+  --old-color:      #333333;
+  --old-light:      rgba(51,51,51,0.07);
 
-  /* Semantic */
-  --success:        #059669;
-  --success-bg:     #ECFDF5;
-  --success-border: #6EE7B7;
-  --danger:         #DC2626;
-  --danger-bg:      #FEF2F2;
-  --warning:        #D97706;
-  --warning-bg:     #FFFBEB;
-  --warning-border: #FCD34D;
+  /* Semantic — mapped to brand palette */
+  --success:        #FF5000;
+  --success-bg:     #FFF5F0;
+  --success-border: rgba(255,80,0,0.30);
+  --danger:         #333333;
+  --danger-bg:      #F5F5F5;
+  --warning:        #666666;
+  --warning-bg:     #F7F7F7;
+  --warning-border: #E0E0E0;
 
   /* Surface */
-  --bg:       #F8FAFC;
+  --bg:       #F7F7F7;
   --surface:  #FFFFFF;
-  --surface2: #F1F5F9;
-  --border:   #E2E8F0;
+  --surface2: #F5F5F5;
+  --border:   #E0E0E0;
 
   /* Typography */
-  --text:           #0F172A;
-  --text-secondary: #475569;
-  --muted:          #94A3B8;
+  --text:           #333333;
+  --text-secondary: #666666;
+  --muted:          #999999;
 
   /* Elevation */
-  --shadow-xs: 0 1px 2px rgba(15,23,42,0.06);
-  --shadow-sm: 0 1px 3px rgba(15,23,42,0.08), 0 1px 2px rgba(15,23,42,0.04);
-  --shadow:    0 4px 12px rgba(15,23,42,0.08), 0 2px 4px rgba(15,23,42,0.04);
-  --shadow-lg: 0 10px 32px rgba(15,23,42,0.10), 0 4px 8px rgba(15,23,42,0.05);
+  --shadow-xs: 0 1px 2px rgba(51,51,51,0.08);
+  --shadow-sm: 0 1px 3px rgba(51,51,51,0.10), 0 1px 2px rgba(51,51,51,0.06);
+  --shadow:    0 4px 12px rgba(51,51,51,0.10), 0 2px 4px rgba(51,51,51,0.06);
+  --shadow-lg: 0 10px 32px rgba(51,51,51,0.12), 0 4px 8px rgba(51,51,51,0.07);
 
   /* Radii */
   --r-xs: 4px;
@@ -62,7 +62,7 @@
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  font-family: 'Lato', system-ui, -apple-system, sans-serif;
   font-size: 15px;
   line-height: 1.6;
   min-height: 100vh;
@@ -111,7 +111,7 @@ header {
 
 .h-desc-title {
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
 }
 
@@ -126,7 +126,7 @@ header {
   background: var(--primary);
   color: #fff;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 5px 14px;
   border-radius: var(--r-xl);
   letter-spacing: 0.3px;
@@ -140,11 +140,11 @@ header {
   max-width: 960px;
   margin: 0 auto;
   width: 100%;
-  padding: 0 28px 80px;
+  padding: 28px 28px 80px;
 }
 
-/* calc-col is a transparent wrapper — no layout effect */
-.calc-col { display: contents; }
+/* calc-col: block so it renders before edu-sections via flex order */
+.calc-col { display: block; order: -1; }
 
 /* calc-layout is a transparent wrapper — no layout effect */
 .calc-layout { display: contents; }
@@ -196,7 +196,7 @@ header {
   font-size: 12px;
   color: var(--text-secondary);
   margin-bottom: 4px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .field input,
@@ -216,7 +216,7 @@ header {
 }
 
 .field select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999999' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   padding-right: 32px;
@@ -234,7 +234,7 @@ header {
 .hint {
   font-size: 11px;
   color: var(--text-secondary);
-  font-weight: 500;
+  font-weight: 400;
   margin-top: 3px;
 }
 
@@ -249,7 +249,7 @@ header {
   display: inline-flex;
   align-items: center;
   font-size: 9.5px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 2px 6px;
   border-radius: var(--r-xs);
   letter-spacing: 0.2px;
@@ -257,7 +257,7 @@ header {
 
 .tag-new  { background: var(--new-light);              color: var(--new-color); }
 .tag-old  { background: var(--old-light);              color: var(--old-color); }
-.tag-both { background: rgba(5,150,105,0.10);          color: var(--success);   }
+.tag-both { background: rgba(51,51,51,0.07);            color: var(--text);      }
 
 /* Accordion */
 .accordion {
@@ -274,7 +274,7 @@ header {
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   background: var(--surface2);
   user-select: none;
@@ -282,7 +282,7 @@ header {
   gap: 8px;
 }
 
-.accordion-header:hover { background: #E8EEF4; }
+.accordion-header:hover { background: #EBEBEB; }
 
 .acc-left { display: flex; align-items: center; gap: 7px; flex: 1; min-width: 0; }
 
@@ -306,8 +306,8 @@ header {
 .field-hint {
   display: block;
   font-size: 11px;
-  color: #475569;
-  font-weight: 500;
+  color: #666666;
+  font-weight: 400;
   line-height: 1.5;
   margin-top: 4px;
 }
@@ -317,8 +317,8 @@ header {
   padding-top: 12px;
   border-top: 1px solid var(--border);
   font-size: 11px;
-  color: #475569;
-  font-weight: 500;
+  color: #666666;
+  font-weight: 400;
   line-height: 1.75;
 }
 
@@ -330,15 +330,15 @@ header {
 /* ─── Divider between content and calculator ─────────────────────────────────── */
 .calc-divider { display: flex; align-items: center; gap: 16px; padding: 36px 0 20px; }
 .calc-divider-line { flex: 1; height: 1px; background: var(--border); }
-.calc-divider-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; white-space: nowrap; }
-.live-indicator { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--success); font-weight: 500; margin-left: auto; }
+.calc-divider-label { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; white-space: nowrap; }
+.live-indicator { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--success); font-weight: 400; margin-left: auto; }
 .live-dot { width: 7px; height: 7px; background: var(--success); border-radius: 50%; animation: livepulse 2s ease-in-out infinite; }
 @keyframes livepulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-.scroll-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: #fff; padding: 11px 22px; border-radius: var(--r-xl); font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; margin-top: 6px; transition: background 0.15s, transform 0.15s; }
+.scroll-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--primary); color: #fff; padding: 11px 22px; border-radius: var(--r-xl); font-size: 14px; font-weight: 700; cursor: pointer; border: none; text-decoration: none; margin-top: 6px; transition: background 0.15s, transform 0.15s; }
 .scroll-cta:hover { background: var(--primary-dark); transform: translateY(-1px); }
 
 /* ─── Educational sections ───────────────────────────────────────────────────── */
-.edu-sections { padding: 28px 0 0; }
+.edu-sections { padding: 52px 0 0; border-top: 1.5px solid var(--border); }
 .edu-section { padding: 36px 0 32px; border-bottom: 1.5px solid var(--border); }
 .edu-section:last-child { border-bottom: none; padding-bottom: 8px; }
 .section-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #64748B; margin-bottom: 12px; }
@@ -347,17 +347,17 @@ header {
 .edu-headline em { font-style: normal; color: var(--primary); }
 .edu-body { font-size: 15px; color: #334155; font-weight: 450; line-height: 1.75; max-width: 600px; margin-bottom: 24px; }
 .edu-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-bottom: 10px; border: 1.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
-.edu-table thead th { background: var(--text); color: rgba(255,255,255,0.88); padding: 11px 16px; text-align: left; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; white-space: nowrap; }
+.edu-table thead th { background: var(--text); color: rgba(255,255,255,0.88); padding: 11px 16px; text-align: left; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; white-space: nowrap; }
 .edu-table thead th.th-accent { color: var(--primary); }
 .edu-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: middle; }
 .edu-table tr:last-child td { border-bottom: none; }
 .edu-table tr:nth-child(even) td { background: var(--surface2); }
-.edu-table .col-new { color: var(--new-color); font-weight: 600; }
-.edu-table .col-old { color: var(--old-color); font-weight: 600; }
-.edu-table .col-income { font-weight: 600; }
+.edu-table .col-new { color: var(--new-color); font-weight: 700; }
+.edu-table .col-old { color: var(--old-color); font-weight: 700; }
+.edu-table .col-income { font-weight: 700; }
 .zero-badge { display: inline-flex; align-items: center; background: rgba(5,150,105,0.12); color: var(--success); font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 20px; margin-left: 6px; vertical-align: middle; }
 .gap-pill { display: inline-block; background: var(--primary); color: #fff; font-size: 11.5px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
-.edu-footnote { font-size: 12px; color: #475569; font-weight: 500; line-height: 1.7; padding-top: 12px; border-top: 1px solid var(--border); }
+.edu-footnote { font-size: 12px; color: #666666; font-weight: 400; line-height: 1.7; padding-top: 12px; border-top: 1px solid var(--border); }
 .slab-layout { display: flex; gap: 20px; align-items: flex-start; }
 .slab-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; }
 .slab-block { border: 1.5px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
@@ -367,13 +367,13 @@ header {
 .slab-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 13px; }
 .slab-row:last-child { border-bottom: none; }
 .slab-row.highlight-row { background: rgba(5,150,105,0.06); }
-.slab-range { color: #334155; font-weight: 500; }
+.slab-range { color: #334155; font-weight: 400; }
 .slab-rate { font-weight: 700; }
 .slab-rate.nil { color: var(--success); }
-.slab-rate.top { color: #DC2626; }
-.slab-note { font-size: 11.5px; color: #475569; font-weight: 500; margin-top: 8px; padding: 7px 10px; background: var(--surface2); border-radius: var(--r-sm); }
+.slab-rate.top { color: #333333; }
+.slab-note { font-size: 11.5px; color: #666666; font-weight: 400; margin-top: 8px; padding: 7px 10px; background: var(--surface2); border-radius: var(--r-sm); }
 .edu-callout { flex-shrink: 0; width: 210px; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--r-xl); padding: 18px 20px; box-shadow: var(--shadow-sm); }
-.edu-callout-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #475569; margin-bottom: 8px; }
+.edu-callout-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #666666; margin-bottom: 8px; }
 .edu-callout-big { font-size: 34px; font-weight: 800; color: var(--success); letter-spacing: -1px; line-height: 1; margin-bottom: 10px; }
 .edu-callout-desc { font-size: 12.5px; color: #334155; font-weight: 450; line-height: 1.6; }
 .edu-callout-desc strong { color: var(--text); }
@@ -382,7 +382,7 @@ header {
 .myth-num { font-size: 10.5px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px; }
 .myth-title { font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 8px; line-height: 1.35; }
 .myth-body { font-size: 13.5px; color: #334155; font-weight: 450; line-height: 1.65; }
-.myth-body strong { color: var(--text); font-weight: 600; }
+.myth-body strong { color: var(--text); font-weight: 700; }
 
 /* Empty state */
 .empty-state {
@@ -406,7 +406,7 @@ header {
   color: var(--primary);
 }
 
-.empty-state h2 { font-size: 20px; font-weight: 600; color: var(--text); }
+.empty-state h2 { font-size: 20px; font-weight: 700; color: var(--text); }
 
 .empty-state p {
   color: var(--text-secondary);
@@ -456,7 +456,7 @@ header {
 .banner-icon.good-icon { background: var(--success-bg); color: var(--success); }
 
 .banner-body { flex: 1; min-width: 0; }
-.banner-body .msg  { font-size: 14px; font-weight: 600; color: var(--text); }
+.banner-body .msg  { font-size: 14px; font-weight: 700; color: var(--text); }
 .banner-body .sub  { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
 .banner-saving     { font-weight: 700; color: var(--success); }
 
@@ -491,7 +491,7 @@ header {
 .zero-tax-icon {
   width: 52px;
   height: 52px;
-  background: #D1FAE5;
+  background: var(--primary-bg);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -570,7 +570,7 @@ header {
   margin-bottom: 12px;
 }
 
-.eff-rate span { font-weight: 600; color: var(--text-secondary); }
+.eff-rate span { font-weight: 700; color: var(--text-secondary); }
 
 .c-rows { border-top: 1px solid var(--border); padding-top: 10px; }
 
@@ -583,9 +583,10 @@ header {
   color: var(--text-secondary);
 }
 
-.c-row .v   { font-weight: 500; color: var(--text); }
-.c-row .ded { color: var(--success); font-weight: 600; }
-.c-row .tax { color: var(--danger); font-weight: 500; }
+.c-row .v     { font-weight: 400; color: var(--text); }
+.c-row .ded   { color: var(--success); font-weight: 700; }
+.c-row .tax   { color: var(--danger); font-weight: 400; }
+.c-row.taxable-row { background: var(--surface2); border-radius: var(--r-xs); padding: 5px 6px; margin: 4px -6px; font-weight: 700; }
 
 /* Section card (waterfall / breakdown / tips) */
 .card {
@@ -646,14 +647,14 @@ header {
 .slab-label  { width: 160px; color: var(--text-secondary); flex-shrink: 0; }
 .slab-bar-w  { flex: 1; background: var(--surface2); border-radius: 4px; height: 15px; overflow: hidden; }
 .slab-bar    { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
-.slab-amount { width: 85px; text-align: right; font-weight: 600; color: var(--text); }
+.slab-amount { width: 85px; text-align: right; font-weight: 700; color: var(--text); }
 
 /* Breakdown table */
 .bk-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
 .bk-table tr     { border-bottom: 1px solid var(--border); }
 .bk-table tr:last-child { border-bottom: none; }
 .bk-table td     { padding: 6px 4px; }
-.bk-table td:last-child { text-align: right; font-weight: 600; }
+.bk-table td:last-child { text-align: right; font-weight: 700; }
 .bk-table .bk-sub td { color: var(--muted); font-size: 11.5px; padding-left: 18px; }
 .bk-table .bk-total td {
   font-weight: 700;
@@ -758,7 +759,7 @@ header {
 .nstat-label {
   font-size: 11px;
   color: var(--muted);
-  font-weight: 500;
+  font-weight: 400;
   margin-top: 4px;
   line-height: 1.4;
 }
@@ -772,7 +773,7 @@ header {
   margin: 0;
 }
 
-.narrative-body strong { color: var(--text); font-weight: 600; }
+.narrative-body strong { color: var(--text); font-weight: 700; }
 
 /* Regime "why" subtitle inside compare card */
 .regime-why {
@@ -847,7 +848,7 @@ header {
   border-radius: var(--r-xl);
   border: none;
   font-size: 13.5px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   font-family: inherit;
   transition: background 0.15s, transform 0.15s;
@@ -882,11 +883,51 @@ header {
   border-top: 1px solid #eee;
 }
 
+
+/* ─── Mode toggle bar ─────────────────────────────────────────────────────────── */
+.mode-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 14px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.mode-label { font-size: 12px; font-weight: 700; color: var(--text-secondary); flex-shrink: 0; }
+.mode-tabs {
+  display: flex;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 2px;
+  gap: 2px;
+}
+.mode-tab {
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-tab.active { background: var(--surface); color: var(--text); box-shadow: var(--shadow-xs); }
+.mode-tab:hover:not(.active) { color: var(--text); }
+.mode-note { font-size: 11px; color: var(--muted); margin-left: auto; }
+
+/* ─── Quick / Detail visibility ──────────────────────────────────────────────── */
+.quick-only { display: none; }
+.inputs-panel.is-quick .detail-only { display: none !important; }
+.inputs-panel.is-quick .quick-only  { display: block; }
+.inputs-panel.is-quick .inputs-grid { grid-template-columns: 1fr; }
+
 /* ─── Print / PDF styles ─────────────────────────────────────────────────────── */
 @media print {
   header,
   .edu-sections,
-  .calc-divider,
   .inputs-panel,
   .pdf-bar { display: none !important; }
 
@@ -924,12 +965,12 @@ header {
   <div class="h-divider" aria-hidden="true"></div>
 
   <div class="h-desc">
-    <span class="h-desc-title">India Income Tax — Advanced Estimate</span>
-    <span class="h-desc-sub">New &amp; Old Regime · Marginal Relief · Surcharge · Capital Gains</span>
+    <span class="h-desc-title">Income Tax Calculator: Old vs New</span>
+    <span class="h-desc-sub">What's best for you?</span>
   </div>
 
   <div class="h-spacer"></div>
-  <div class="fy-badge">FY 2025-26 / AY 2026-27</div>
+  <div class="fy-badge" id="fy-badge">FY 2025-26 / AY 2026-27</div>
 </header>
 
 <div class="main">
@@ -941,7 +982,7 @@ header {
     <div class="edu-section">
       <div class="section-eyebrow">A note on the math</div>
       <h2 class="edu-headline">The myth of the <em>right</em> regime.</h2>
-      <p class="edu-body">Every Budget season, the same question floods every financial advisor's inbox: New regime or Old? Most salaried employees pick based on habit — or their employer's default TDS deduction. Depending on deductions and income level, taxpayers who run the math can save significantly by choosing the optimal regime — often the difference is the entire Section 80C + home loan benefit.</p>
+      <p class="edu-body">Every Budget season, the same question floods every financial advisor's inbox: New regime or Old? Most salaried employees pick based on habit, or go with their employer's default TDS deduction. Depending on deductions and income level, taxpayers who run the math can save significantly by choosing the optimal regime. Often the difference is the entire Section 80C + home loan benefit.</p>
       <table class="edu-table">
         <thead>
           <tr>
@@ -984,8 +1025,8 @@ header {
     <!-- SECTION 2 — Official slabs -->
     <div class="edu-section">
       <div class="section-eyebrow">Official government data</div>
-      <h2 class="edu-headline">The zero-tax promise — and the <em>fine print</em>.</h2>
-      <p class="edu-body">Budget 2025 announced zero tax on income up to ₹12 lakh. What the Finance Act actually says: Section 87A provides a rebate up to ₹60,000 for taxable income ≤ ₹12L. For salaried employees, the standard deduction of ₹75,000 pushes this to ₹12.75L gross. The slabs below are what the Income Tax portal uses — not an estimate.</p>
+      <h2 class="edu-headline">The zero-tax promise, and the <em>fine print</em>.</h2>
+      <p class="edu-body">Budget 2025 announced zero tax on income up to ₹12 lakh. What the Finance Act actually says: Section 87A provides a rebate up to ₹60,000 for taxable income ≤ ₹12L. For salaried employees, the standard deduction of ₹75,000 pushes this to ₹12.75L gross. The slabs below are what the Income Tax portal uses. Not an estimate.</p>
       <div class="slab-layout">
         <div class="slab-pair">
           <div class="slab-block">
@@ -1010,7 +1051,7 @@ header {
         <div class="edu-callout">
           <div class="edu-callout-label">Sec. 87A — New Regime</div>
           <div class="edu-callout-big">₹60,000</div>
-          <div class="edu-callout-desc">Rebate that zeroes your tax if taxable income ≤ ₹12L. <strong>No form required — auto-applied in ITR.</strong> For salaried: gross salary ≤ ₹12.75L qualifies (after SD ₹75k).</div>
+          <div class="edu-callout-desc">Rebate that zeroes your tax if taxable income ≤ ₹12L. <strong>No form required, auto-applied in ITR.</strong> For salaried: gross salary ≤ ₹12.75L qualifies (after SD ₹75k).</div>
         </div>
       </div>
     </div>
@@ -1019,11 +1060,11 @@ header {
     <div class="edu-section">
       <div class="section-eyebrow">Common mistakes</div>
       <h2 class="edu-headline">Why most people <em>overpay</em>.</h2>
-      <p class="edu-body">Four things the math exposes every time — that the average taxpayer never checks before filing.</p>
+      <p class="edu-body">Four things the math exposes every time, that the average taxpayer never checks before filing.</p>
       <div class="myth-grid">
         <div class="myth-card">
           <div class="myth-num">01</div>
-          <div class="myth-title">For most, new regime wins — unless deductions are large</div>
+          <div class="myth-title">For most, new regime wins. Unless deductions are large.</div>
           <div class="myth-body">Old regime needs <strong>₹3.75L–₹5.5L in deductions</strong> to beat new regime on ₹12–20L income. 80C alone (₹1.5L) doesn't move the needle. Taxpayers with home loan interest + HRA + NPS may find old regime substantially better.</div>
         </div>
         <div class="myth-card">
@@ -1034,12 +1075,12 @@ header {
         <div class="myth-card">
           <div class="myth-num">03</div>
           <div class="myth-title">Employer NPS works in both regimes</div>
-          <div class="myth-body">80CCD(2) — employer NPS contribution — is deductible in <strong>both New and Old regime</strong>. Up to 14% of Basic+DA (aggregate cap ₹7.5L). If your employer offers it, claim it regardless of which regime you pick.</div>
+          <div class="myth-body">80CCD(2) (employer NPS contribution) is deductible in <strong>both New and Old regime</strong>. Up to 14% of Basic+DA (aggregate cap ₹7.5L). If your employer offers it, claim it regardless of which regime you pick.</div>
         </div>
         <div class="myth-card">
           <div class="myth-num">04</div>
           <div class="myth-title">Surcharge caps matter above ₹50L</div>
-          <div class="myth-body">Old regime surcharge: up to <strong>37%</strong> on income above ₹5 crore. New regime caps at <strong>25%</strong>. For high earners, new regime saves on both the slab rate AND the surcharge — a compounding advantage.</div>
+          <div class="myth-body">Old regime surcharge: up to <strong>37%</strong> on income above ₹5 crore. New regime caps at <strong>25%</strong>. For high earners, new regime saves on both the slab rate and the surcharge, a compounding advantage.</div>
         </div>
       </div>
     </div>
@@ -1049,14 +1090,8 @@ header {
   <!-- ===== RIGHT COLUMN: Calculator + Results ===== -->
   <div class="calc-col">
 
-  <!-- ===== DIVIDER ===== -->
-  <div class="calc-divider">
-    <div class="calc-divider-line"></div>
-    <div class="calc-divider-label">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/></svg>
-      The Calculator
-    </div>
-    <div class="calc-divider-line"></div>
+  <!-- ===== Live indicator bar ===== -->
+  <div style="display:flex; justify-content:flex-end; padding-bottom:10px;">
     <span class="live-indicator"><span class="live-dot"></span>Updates live as you type</span>
   </div>
 
@@ -1064,11 +1099,28 @@ header {
   <div class="calc-layout">
 
   <!-- ===== INPUT PANEL ===== -->
-  <div class="inputs-panel" id="calculator" role="form" aria-label="Income and deduction inputs">
+  <div class="inputs-panel is-quick" id="calculator" role="form" aria-label="Income and deduction inputs">
+  <!-- Mode toggle -->
+  <div class="mode-bar">
+    <span class="mode-label">Mode</span>
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="btn-quick" onclick="setMode('quick')" type="button">Quick</button>
+      <button class="mode-tab" id="btn-detailed" onclick="setMode('detailed')" type="button">Detailed</button>
+    </div>
+    <span class="mode-note" id="mode-note">Salary + deductions total · ~90% accurate</span>
+  </div>
   <div class="inputs-grid">
   <div class="inputs-col">
 
     <div class="section-header">Personal Details</div>
+    <div class="field">
+      <label for="assessmentYear">Assessment Year</label>
+      <select id="assessmentYear">
+        <option value="2025-26">FY 2025-26 / AY 2026-27 (current)</option>
+        <option value="2024-25">FY 2024-25 / AY 2025-26</option>
+        <option value="2023-24">FY 2023-24 / AY 2024-25</option>
+      </select>
+    </div>
     <div class="row2">
       <div class="field">
         <label for="age">Age Group</label>
@@ -1089,20 +1141,25 @@ header {
 
     <div class="section-header">Income Sources</div>
     <div class="field">
-      <label for="salary">Gross Salary / Pension (₹)</label>
-      <input type="number" id="salary" placeholder="e.g. 1500000" min="0">
+      <label for="salary">Gross Salary / Pension — p.a. (₹)</label>
+      <input type="number" id="salary" placeholder="e.g. 15,00,000 per year" min="0">
     </div>
-    <div class="row2">
-      <div class="field">
-        <label for="basicDA">Basic + DA (₹) <span class="tag tag-both">NPS</span></label>
-        <input type="number" id="basicDA" placeholder="e.g. 600000" min="0">
-      </div>
-      <div class="field">
-        <label for="business">Business / Prof. Income (₹)</label>
-        <input type="number" id="business" placeholder="0" min="0">
-      </div>
+    <div class="field">
+      <label for="basicDA">Basic + DA (₹) <span class="tag tag-both">NPS</span></label>
+      <input type="number" id="basicDA" placeholder="e.g. 6,00,000" min="0">
     </div>
-    <div class="row2">
+    <!-- Quick mode: single deductions field -->
+    <div class="field quick-only">
+      <label for="quickDeductions">Total Old Regime Deductions — approx (₹) <span class="tag tag-old">OLD</span></label>
+      <input type="number" id="quickDeductions" placeholder="80C + 80D + HRA + Home Loan..." min="0">
+      <div class="hint">Sum of all deductions · standard deduction auto-added separately</div>
+    </div>
+    <!-- Detail mode: individual income sources -->
+    <div class="field detail-only">
+      <label for="business">Business / Prof. Income (₹)</label>
+      <input type="number" id="business" placeholder="0" min="0">
+    </div>
+    <div class="row2 detail-only">
       <div class="field">
         <label for="otherIncome">Other Sources (₹)</label>
         <input type="number" id="otherIncome" placeholder="Interest, etc." min="0">
@@ -1114,7 +1171,7 @@ header {
     </div>
 
     <!-- Capital Gains accordion -->
-    <div class="accordion">
+    <div class="accordion detail-only">
       <div class="accordion-header" onclick="toggleAccordion(this)" role="button" aria-expanded="false" tabindex="0">
         <div class="acc-left">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -1143,33 +1200,34 @@ header {
       </div>
     </div>
 
-    <!-- New regime deductions -->
-    <div class="section-header">New Regime Deductions <span class="tag tag-new">NEW</span></div>
+    <!-- Shared / new-regime specific deductions -->
+    <div class="section-header">Other Deductions <span class="tag tag-both">BOTH</span></div>
     <div class="field">
       <label for="nps80CCD2">Employer NPS — 80CCD(2) (₹)</label>
       <input type="number" id="nps80CCD2" placeholder="0" min="0">
-      <div class="hint">Max 14% of Basic+DA · available in both regimes</div>
+      <div class="hint">Max 14% of Basic+DA · deductible in both regimes</div>
     </div>
-    <div class="field">
-      <label for="letOutInterest">Home Loan Interest — Let-out Property (₹)</label>
+    <div class="field detail-only">
+      <label for="letOutInterest">Home Loan Interest — Let-out Property (₹) <span class="tag tag-new">NEW</span></label>
       <input type="number" id="letOutInterest" placeholder="0" min="0">
-      <div class="hint">Capped at taxable rental income</div>
+      <div class="hint">New Regime only · capped at taxable rental income</div>
     </div>
 
   </div><!-- /inputs-col left -->
 
-  <!-- RIGHT COLUMN: Old Regime Deductions -->
-  <div class="inputs-col">
+  <!-- RIGHT COLUMN: Old Regime Deductions (detail mode only) -->
+  <div class="inputs-col detail-only">
     <div class="section-header">Old Regime Deductions <span class="tag tag-old">OLD</span></div>
+    <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;line-height:1.5;">Only needed if comparing with Old Regime. Leave blank if you're on New Regime.</p>
     <div class="accordion">
-      <div class="accordion-header open" onclick="toggleAccordion(this)" role="button" aria-expanded="true" tabindex="0">
+      <div class="accordion-header" onclick="toggleAccordion(this)" role="button" aria-expanded="false" tabindex="0">
         <div class="acc-left">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-3"/><path d="M9 15h3l8.5-8.5a1.5 1.5 0 0 0-3-3L9 12v3"/></svg>
-          Collapse deductions
+          80C, 80D, HRA, Home Loan, LTA and more
         </div>
         <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
-      <div class="accordion-body open">
+      <div class="accordion-body">
         <div class="field">
           <label for="d80C">80C (₹) — max ₹1,50,000</label>
           <input type="number" id="d80C" placeholder="PPF, ELSS, LIC, EPF…" min="0" max="150000">
@@ -1229,7 +1287,7 @@ header {
     </div>
 
     <div class="input-footer" style="margin-top:20px;">
-      All figures in INR (₹). Advanced estimate only — does not independently verify deduction eligibility, rebate restrictions, or capital gains treatment. HRA/LTA accepted as pre-calculated; 80G requires user to apply correct rate and qualifying limits. Confirm final liability while filing your ITR. SD ₹75,000 (new) / ₹50,000 (old) auto-applied for salaried.
+      All figures in INR (₹). Advanced estimate only. Does not independently verify deduction eligibility, rebate restrictions, or capital gains treatment. HRA/LTA accepted as pre-calculated; 80G requires user to apply correct rate and qualifying limits. Confirm final liability while filing your ITR. Standard deduction auto-applied for salaried (amount varies by year).
     </div>
 
   </div><!-- /inputs-col right -->
@@ -1243,7 +1301,7 @@ header {
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="12" y2="18"/></svg>
       </div>
       <h2>Run the numbers yourself.</h2>
-      <p>Enter your income above — your full tax analysis, regime comparison, and action plan appear here instantly.</p>
+      <p>Enter your income above. Your full tax analysis, regime comparison, and action plan appear here instantly.</p>
     </div>
   </div>
 
@@ -1286,10 +1344,37 @@ document.querySelectorAll('.accordion-header').forEach(h => {
   });
 });
 
+// ─── Year parameters ─────────────────────────────────────────────────────────
+const YEAR_PARAMS = {
+  '2025-26': {
+    sdNew: 75000, sdOld: 50000,
+    rebateNew: 60000, rebateLimitNew: 1200000,
+    npsRate: 0.14,
+    newSlabLimits: [0, 400000, 800000, 1200000, 1600000, 2000000, 2400000],
+    newSlabRates:  [0, 0.05,  0.10,   0.15,    0.20,    0.25,    0.30],
+    stcgRate: 0.20, ltcg112aRate: 0.125, ltcg112aExemption: 125000, ltcg112Rate: 0.125,
+  },
+  '2024-25': {
+    sdNew: 75000, sdOld: 50000,
+    rebateNew: 25000, rebateLimitNew: 700000,
+    npsRate: 0.14,
+    newSlabLimits: [0, 300000, 700000, 1000000, 1200000, 1500000],
+    newSlabRates:  [0, 0.05,   0.10,   0.15,    0.20,    0.30],
+    stcgRate: 0.20, ltcg112aRate: 0.125, ltcg112aExemption: 125000, ltcg112Rate: 0.125,
+  },
+  '2023-24': {
+    sdNew: 50000, sdOld: 50000,
+    rebateNew: 25000, rebateLimitNew: 700000,
+    npsRate: 0.10,
+    newSlabLimits: [0, 300000, 600000, 900000, 1200000, 1500000],
+    newSlabRates:  [0, 0.05,   0.10,   0.15,   0.20,    0.30],
+    // STCG@15% and LTCG 112A@10% above Rs.1L — pre Budget-July-2024 rates
+    stcgRate: 0.15, ltcg112aRate: 0.10, ltcg112aExemption: 100000, ltcg112Rate: 0.20,
+  },
+};
+
 // ─── Slab Tax ────────────────────────────────────────────────────────────────
-function slabTaxNew(income) {
-  const limits = [0, 400000, 800000, 1200000, 1600000, 2000000, 2400000];
-  const rates  = [0, 0.05, 0.10, 0.15, 0.20, 0.25, 0.30];
+function slabTaxNew(income, limits, rates) {
   let tax = 0;
   const details = [];
   for (let i = 0; i < rates.length; i++) {
@@ -1363,82 +1448,107 @@ function computeSurcharge(totalIncome, baseTax, specialTax, specialGains, regime
   return surcharge;
 }
 
+// ─── Quick / Detail mode ─────────────────────────────────────────────────────
+function setMode(mode) {
+  const panel  = document.getElementById('calculator');
+  const btnQ   = document.getElementById('btn-quick');
+  const btnD   = document.getElementById('btn-detailed');
+  const note   = document.getElementById('mode-note');
+  if (mode === 'quick') {
+    panel.classList.add('is-quick');
+    btnQ.classList.add('active');    btnD.classList.remove('active');
+    note.textContent = 'Salary + deductions total · ~90% accurate';
+  } else {
+    panel.classList.remove('is-quick');
+    btnD.classList.add('active');    btnQ.classList.remove('active');
+    note.textContent = 'All income sources · precise deductions';
+  }
+  render();
+}
+
 // ─── Main engine ─────────────────────────────────────────────────────────────
 function compute() {
+  const yp       = YEAR_PARAMS[document.getElementById('assessmentYear').value];
+  const isQuick  = document.getElementById('calculator').classList.contains('is-quick');
   const age      = document.getElementById('age').value;
   const type     = document.getElementById('taxpayerType').value;
   const isSalaried = type === 'salaried';
 
   const salary       = v('salary');
   const basicDA      = v('basicDA');
-  const business     = v('business');
-  const otherIncome  = v('otherIncome');
-  const rentalIncome = v('rentalIncome');
-  const stcg111A     = v('stcg111A');
-  const ltcg112A     = v('ltcg112A');
-  const ltcg112      = v('ltcg112');
+  const business     = isQuick ? 0 : v('business');
+  const otherIncome  = isQuick ? 0 : v('otherIncome');
+  const rentalIncome = isQuick ? 0 : v('rentalIncome');
+  const stcg111A     = isQuick ? 0 : v('stcg111A');
+  const ltcg112A     = isQuick ? 0 : v('ltcg112A');
+  const ltcg112      = isQuick ? 0 : v('ltcg112');
   const nps80CCD2Raw = v('nps80CCD2');
-  const letOutInt    = v('letOutInterest');
-
-  const d80C     = cap(v('d80C'), 150000);
-  const d80CCD1B = cap(v('d80CCD1B'), 50000);
-  const d80D_self = v('d80D_self');
-  const d80D_par  = v('d80D_parents');
-  const d80E      = v('d80E');
-  const d80TTA    = v('d80TTA');
-  const d24b      = cap(v('d24b'), 200000);
-  const hra       = v('hra');
-  const lta       = v('lta');
-  const d80G      = v('d80G');
-  const dOther    = v('dOther');
+  const letOutInt    = isQuick ? 0 : v('letOutInterest');
 
   const grossIncome  = salary + business + otherIncome + rentalIncome;
   const specialGains = stcg111A + ltcg112A + ltcg112;
   if (grossIncome === 0 && specialGains === 0) return null;
 
-  const nps80CCD2 = Math.min(nps80CCD2Raw, basicDA * 0.14, 750000);
+  const nps80CCD2 = isQuick
+    ? Math.min(nps80CCD2Raw, 750000)
+    : Math.min(nps80CCD2Raw, basicDA * yp.npsRate, 750000);
 
   // ── NEW REGIME ──
-  const newSD     = isSalaried ? Math.min(75000, salary) : 0;
+  const newSD     = isSalaried ? Math.min(yp.sdNew, salary) : 0;
   const newLetOut = Math.min(letOutInt, rentalIncome);
   const newTaxableNormal = fl(grossIncome - newSD - nps80CCD2 - newLetOut);
   const newTaxableTotal  = newTaxableNormal + specialGains;
 
-  const newSlabResult = slabTaxNew(newTaxableNormal);
+  const newSlabResult = slabTaxNew(newTaxableNormal, yp.newSlabLimits, yp.newSlabRates);
   let   newSlabTax    = newSlabResult.tax;
 
   let newRebate = 0;
-  if (newTaxableTotal <= 1200000) newRebate = Math.min(newSlabTax, 60000);
+  if (newTaxableTotal <= yp.rebateLimitNew) newRebate = Math.min(newSlabTax, yp.rebateNew);
   let newTaxAfterRebate = newSlabTax - newRebate;
 
+  // Generalised marginal relief — works for all years (12L in 2025-26, 7L in prior years)
   let newMarginalRelief = 0, newMarginalReliefApplied = false;
-  if (newTaxableTotal > 1200000 && newTaxableTotal <= 1270588) {
-    const excess = newTaxableTotal - 1200000;
+  if (newTaxableTotal > yp.rebateLimitNew) {
+    const excess = newTaxableTotal - yp.rebateLimitNew;
     if (newTaxAfterRebate > excess) {
-      newMarginalRelief      = newTaxAfterRebate - excess;
-      newTaxAfterRebate      = excess;
+      newMarginalRelief    = newTaxAfterRebate - excess;
+      newTaxAfterRebate    = excess;
       newMarginalReliefApplied = true;
     }
   }
 
-  const newSpecialTax  = stcg111A * 0.20 + fl(ltcg112A - 125000) * 0.125 + ltcg112 * 0.125;
+  const newSpecialTax  = stcg111A * yp.stcgRate + fl(ltcg112A - yp.ltcg112aExemption) * yp.ltcg112aRate + ltcg112 * yp.ltcg112Rate;
   const newTaxBeforeSC = newTaxAfterRebate + newSpecialTax;
-  const newSurcharge   = computeSurcharge(newTaxableTotal, newTaxBeforeSC, newSpecialTax, specialGains, 'new', inc => slabTaxNew(inc).tax);
-  const newTotal       = (newTaxBeforeSC + newSurcharge) * 1.04;
+  const newSurcharge   = computeSurcharge(newTaxableTotal, newTaxBeforeSC, newSpecialTax, specialGains, 'new',
+    inc => slabTaxNew(inc, yp.newSlabLimits, yp.newSlabRates).tax);
+  const newTotal = (newTaxBeforeSC + newSurcharge) * 1.04;
 
   // ── OLD REGIME ──
-  const oldSD           = isSalaried ? Math.min(50000, salary) : 0;
+  const oldSD            = isSalaried ? Math.min(yp.sdOld, salary) : 0;
   const oldD80D_self_max = age !== 'below60' ? 50000 : 25000;
   const oldD80D_par_max  = age !== 'below60' ? 50000 : 25000;
   const oldD80TTA_max    = age !== 'below60' ? 50000 : 10000;
 
-  const chapter6A = d80C
-    + d80CCD1B
-    + Math.min(d80D_self, oldD80D_self_max)
-    + Math.min(d80D_par, oldD80D_par_max)
-    + d80E
-    + Math.min(d80TTA, oldD80TTA_max)
-    + d24b + hra + lta + d80G + dOther + nps80CCD2;
+  let chapter6A;
+  if (isQuick) {
+    chapter6A = v('quickDeductions') + nps80CCD2;
+  } else {
+    const d80C      = cap(v('d80C'), 150000);
+    const d80CCD1B  = cap(v('d80CCD1B'), 50000);
+    const d80D_self = v('d80D_self');
+    const d80D_par  = v('d80D_parents');
+    const d80E      = v('d80E');
+    const d80TTA    = v('d80TTA');
+    const d24b      = cap(v('d24b'), 200000);
+    const hra       = v('hra');
+    const lta       = v('lta');
+    const d80G      = v('d80G');
+    const dOther    = v('dOther');
+    chapter6A = d80C + d80CCD1B
+      + Math.min(d80D_self, oldD80D_self_max) + Math.min(d80D_par, oldD80D_par_max)
+      + d80E + Math.min(d80TTA, oldD80TTA_max)
+      + d24b + hra + lta + d80G + dOther + nps80CCD2;
+  }
 
   const oldTaxableNormal = fl(grossIncome - oldSD - chapter6A);
   const oldTaxableTotal  = oldTaxableNormal + specialGains;
@@ -1450,20 +1560,25 @@ function compute() {
   if (oldTaxableTotal <= 500000) oldRebate = Math.min(oldSlabTax, 12500);
   let oldTaxAfterRebate = oldSlabTax - oldRebate;
 
-  const oldSpecialTax  = stcg111A * 0.20 + fl(ltcg112A - 125000) * 0.125 + ltcg112 * 0.125;
+  const oldSpecialTax  = stcg111A * yp.stcgRate + fl(ltcg112A - yp.ltcg112aExemption) * yp.ltcg112aRate + ltcg112 * yp.ltcg112Rate;
   const oldTaxBeforeSC = oldTaxAfterRebate + oldSpecialTax;
-  const oldSurcharge   = computeSurcharge(oldTaxableTotal, oldTaxBeforeSC, oldSpecialTax, specialGains, 'old', inc => slabTaxOld(inc, age).tax);
-  const oldTotal       = (oldTaxBeforeSC + oldSurcharge) * 1.04;
+  const oldSurcharge   = computeSurcharge(oldTaxableTotal, oldTaxBeforeSC, oldSpecialTax, specialGains, 'old',
+    inc => slabTaxOld(inc, age).tax);
+  const oldTotal = (oldTaxBeforeSC + oldSurcharge) * 1.04;
 
   return {
     new: { taxableNormal: newTaxableNormal, taxableTotal: newTaxableTotal, slabTax: newSlabTax, rebate: newRebate, marginalRelief: newMarginalRelief, marginalReliefApplied: newMarginalReliefApplied, specialTax: newSpecialTax, surcharge: newSurcharge, total: newTotal, sd: newSD, nps: nps80CCD2, slabDetails: newSlabResult.details, cess: (newTaxBeforeSC + newSurcharge) * 0.04 },
     old: { taxableNormal: oldTaxableNormal, taxableTotal: oldTaxableTotal, slabTax: oldSlabTax, rebate: oldRebate, specialTax: oldSpecialTax, surcharge: oldSurcharge, total: oldTotal, sd: oldSD, deductions: chapter6A, slabDetails: oldSlabResult.details, cess: (oldTaxBeforeSC + oldSurcharge) * 0.04 },
-    grossIncome, isSalaried, nps80CCD2, newSD,
+    grossIncome, isSalaried, nps80CCD2, newSD, isQuick,
   };
 }
 
 // ─── Render ──────────────────────────────────────────────────────────────────
 function render() {
+  const ayEl = document.getElementById('assessmentYear');
+  document.getElementById('fy-badge').textContent =
+    ayEl.options[ayEl.selectedIndex].text.replace(' (current)', '');
+
   const data  = compute();
   const panel = document.getElementById('results');
 
@@ -1479,7 +1594,7 @@ function render() {
           </svg>
         </div>
         <h2>Enter your income to calculate tax</h2>
-        <p>Both New &amp; Old Regime calculated instantly — auto-recommends the better one for you.</p>
+        <p>Both New &amp; Old Regime calculated instantly. Auto-recommends the better one for you.</p>
       </div>`;
     return;
   }
@@ -1497,7 +1612,7 @@ function render() {
   if (n.marginalReliefApplied) {
     html += `<div class="relief-note">
       ${icon.warn}
-      <span>Marginal relief applied — your income (${fmt(n.taxableTotal)}) is just above ₹12L, so New Regime tax is capped at the excess: <strong>${fmt(n.total)}</strong> instead of the full slab amount.</span>
+      <span>Marginal relief applied. Your income (${fmt(n.taxableTotal)}) is just above ₹12L, so New Regime tax is capped at the excess: <strong>${fmt(n.total)}</strong> instead of the full slab amount.</span>
     </div>`;
   }
 
@@ -1505,7 +1620,7 @@ function render() {
   if (n.total === 0 && o.total === 0) {
     html += `<div class="zero-tax-card">
       <div class="zero-tax-icon">${icon.trophy}</div>
-      <h2>Zero Tax — Congratulations!</h2>
+      <h2>Zero Tax! Congratulations.</h2>
       <p>Your income is within the full-rebate zone. File your ITR and claim a refund if TDS was deducted.</p>
     </div>`;
   }
@@ -1525,7 +1640,7 @@ function render() {
       <div class="c-row"><span>Gross Income</span><span class="v">${fmt(data.grossIncome)}</span></div>
       <div class="c-row"><span>Standard Deduction</span><span class="ded">− ${fmt(n.sd)}</span></div>
       ${data.nps80CCD2 > 0 ? `<div class="c-row"><span>NPS 80CCD(2)</span><span class="ded">− ${fmt(data.nps80CCD2)}</span></div>` : ''}
-      <div class="c-row"><span>Taxable Income</span><span class="v">${fmt(n.taxableTotal)}</span></div>
+      <div class="c-row taxable-row"><span>Taxable Income</span><span class="v">${fmt(n.taxableTotal)}</span></div>
       <div class="c-row"><span>Slab Tax</span><span class="tax">${fmt(n.slabTax)}</span></div>
       ${n.rebate > 0 ? `<div class="c-row"><span>87A Rebate</span><span class="ded">− ${fmt(n.rebate)}</span></div>` : ''}
       ${n.marginalRelief > 0 ? `<div class="c-row"><span>Marginal Relief</span><span class="ded">− ${fmt(n.marginalRelief)}</span></div>` : ''}
@@ -1547,7 +1662,7 @@ function render() {
       <div class="c-row"><span>Gross Income</span><span class="v">${fmt(data.grossIncome)}</span></div>
       <div class="c-row"><span>Standard Deduction</span><span class="ded">− ${fmt(o.sd)}</span></div>
       ${o.deductions > 0 ? `<div class="c-row"><span>Chapter VI-A + Exemptions</span><span class="ded">− ${fmt(o.deductions)}</span></div>` : ''}
-      <div class="c-row"><span>Taxable Income</span><span class="v">${fmt(o.taxableTotal)}</span></div>
+      <div class="c-row taxable-row"><span>Taxable Income</span><span class="v">${fmt(o.taxableTotal)}</span></div>
       <div class="c-row"><span>Slab Tax</span><span class="tax">${fmt(o.slabTax)}</span></div>
       ${o.rebate > 0 ? `<div class="c-row"><span>87A Rebate</span><span class="ded">− ${fmt(o.rebate)}</span></div>` : ''}
       ${o.specialTax > 0 ? `<div class="c-row"><span>Capital Gains Tax</span><span class="tax">${fmt(o.specialTax)}</span></div>` : ''}
@@ -1558,13 +1673,16 @@ function render() {
 
   html += `</div>`; // end compare-grid
 
+  // ── Break-even insight card ──
+  html += buildBreakEvenCard(data, recommended);
+
   // ── Action Plan (optimization tips) ──
   const tips = buildOptimizationTips(data);
   if (tips.length) {
     const totalPotential = tips.reduce((sum, t) => sum + (t.saving || 0), 0);
     const actionTitle = totalPotential > 0
-      ? `Your Action Plan — cut up to ${fmt(totalPotential)} from your tax bill`
-      : `Your Action Plan — reduce your tax further`;
+      ? `Your Action Plan: cut up to ${fmt(totalPotential)} from your tax bill`
+      : `Your Action Plan: reduce your tax further`;
     html += `<div class="card">
       <div class="card-title">${icon.bulb} ${actionTitle}</div>`;
     tips.forEach(t => {
@@ -1585,7 +1703,7 @@ function render() {
     html += `<div class="card">
       <div class="card-title">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="6" height="18"/><rect x="10" y="8" width="6" height="13"/><rect x="18" y="13" width="4" height="8"/></svg>
-        Your income is taxed across ${numBrackets} bracket${numBrackets > 1 ? 's' : ''} — ${recommended === 'new' ? 'New' : 'Old'} Regime
+        Your income is taxed across ${numBrackets} bracket${numBrackets > 1 ? 's' : ''} (${recommended === 'new' ? 'New' : 'Old'} Regime)
       </div>`;
     slabDetails.forEach(s => {
       const barWidth = maxSlabTax > 0 ? (s.tax / maxSlabTax * 100) : 0;
@@ -1642,22 +1760,22 @@ function getRegimeWhy(data, regime) {
   const isSalaried = document.getElementById('taxpayerType').value === 'salaried';
 
   if (regime === 'new') {
-    if (n.total === 0) return `Full ₹60,000 rebate applied — your taxable income is within the ₹12L zero-tax zone.`;
+    if (n.total === 0) return `Full ₹60,000 rebate applied. Your taxable income is within the ₹12L zero-tax zone.`;
     const topRate = n.taxableNormal > 2400000 ? 30 : n.taxableNormal > 2000000 ? 25 : n.taxableNormal > 1600000 ? 20 : n.taxableNormal > 1200000 ? 15 : n.taxableNormal > 800000 ? 10 : 5;
     const sdNote  = isSalaried && n.sd > 0 ? ` after ₹75,000 standard deduction` : '';
     const zeroGap = 1270588 - n.taxableTotal;
     if (zeroGap > 0 && zeroGap < 500000) {
       return `Taxable income ${fmt(n.taxableNormal)}${sdNote}. Just <strong>${fmt(Math.ceil(zeroGap))}</strong> away from the zero-tax marginal relief zone.`;
     }
-    return `Taxable income ${fmt(n.taxableNormal)}${sdNote}. Your top bracket is <strong>${topRate}%</strong> — lower slabs, fewer deductions.`;
+    return `Taxable income ${fmt(n.taxableNormal)}${sdNote}. Your top bracket is <strong>${topRate}%</strong>, fewer deductions required.`;
   } else {
-    if (o.total === 0) return `Deductions bring taxable income below ₹5L — full ₹12,500 rebate applies.`;
+    if (o.total === 0) return `Deductions bring taxable income below ₹5L, so the full ₹12,500 rebate applies.`;
     if (o.deductions > 0) {
       const age = document.getElementById('age').value;
       const topRate = o.taxableNormal > 1000000 ? 30 : o.taxableNormal > 500000 ? 20 : 5;
       return `${fmt(o.deductions)} in deductions claimed, reducing taxable income to ${fmt(o.taxableNormal)}. Top bracket <strong>${topRate}%</strong>.`;
     }
-    return `No additional deductions claimed — same gross, higher slabs than New Regime. Add deductions to close the gap.`;
+    return `No additional deductions claimed. Same gross income, higher slabs than New Regime. Add deductions to close the gap.`;
   }
 }
 
@@ -1681,14 +1799,14 @@ function buildNarrativeCard(data, recommended) {
   // Narrative line 1 — the verdict
   let line1 = '';
   if (best.total === 0) {
-    line1 = `You pay <strong>zero tax</strong> under the ${recommended === 'new' ? 'New' : 'Old'} Regime — your income falls within the full rebate zone.`;
+    line1 = `You pay <strong>zero tax</strong> under the ${recommended === 'new' ? 'New' : 'Old'} Regime. Your income falls within the full rebate zone.`;
   } else if (saved < 1000) {
-    line1 = `Both regimes produce virtually the same tax — you're at the <strong>break-even point</strong>. Either regime is valid for your deduction profile.`;
+    line1 = `Both regimes produce virtually the same tax. You're at the <strong>break-even point</strong> for your deduction profile.`;
   } else {
     const regimeName = recommended === 'new' ? 'New' : 'Old';
     const otherName  = recommended === 'new' ? 'Old' : 'New';
     const monthsClause = monthsSaved && parseFloat(monthsSaved) >= 0.5
-      ? ` — the equivalent of <strong>${monthsSaved} months of salary</strong>` : '';
+      ? `, equivalent to <strong>${monthsSaved} months of salary</strong>` : '';
     line1 = `The <strong>${regimeName} Regime saves you ${fmt(saved)}</strong>${monthsClause} over the ${otherName} Regime this financial year.`;
   }
 
@@ -1700,7 +1818,7 @@ function buildNarrativeCard(data, recommended) {
     line2 = `You are only <strong>${fmt(Math.round(aboveZero))} above the zero-tax threshold</strong> (₹${isSalaried ? '12.75L' : '12L'} for your category). Additional employer NPS contributions could bring your tax close to zero.`;
   } else if (recommended === 'old') {
     const breakEven = Math.round(saved / (topRate / 100 * 1.04));
-    line2 = `Your deductions are the deciding factor. If you ever reduce them by approximately <strong>${fmt(breakEven)}</strong> (estimate — actual crossover depends on slab interactions and surcharge), the New Regime becomes equally attractive — worth reviewing each year after Budget.`;
+    line2 = `Your deductions are the deciding factor. If you ever reduce them by approximately <strong>${fmt(breakEven)}</strong> (the actual crossover depends on slab interactions and surcharge), the New Regime becomes equally attractive. Worth reviewing each year after Budget.`;
   } else {
     line2 = `Your top bracket is <strong>${topRate}%</strong> under New Regime. Each additional ₹1L of employer NPS (80CCD(2)) cuts your tax by approximately ${fmt(topRate * 10000 * 1.04)}.`;
   }
@@ -1742,7 +1860,7 @@ function buildOptimizationTips(data) {
     const headroom     = maxNPS - usedNPS;
     const marginalRate = n.taxableNormal > 2400000 ? 0.30 : n.taxableNormal > 2000000 ? 0.25 : n.taxableNormal > 1600000 ? 0.20 : n.taxableNormal > 1200000 ? 0.15 : n.taxableNormal > 800000 ? 0.10 : 0.05;
     const potentialSaving = headroom * marginalRate * 1.04;
-    tips.push({ title: 'Maximise Employer NPS 80CCD(2)', saving: potentialSaving, body: `Your employer can contribute up to ${fmt(headroom)} more into your NPS account (still within the 14% of Basic+DA limit). This cuts your taxable income by that amount — saving <span class="opt-saving">~${fmt(potentialSaving)}</span> in tax. Works in both regimes.` });
+    tips.push({ title: 'Maximise Employer NPS 80CCD(2)', saving: potentialSaving, body: `Your employer can contribute up to ${fmt(headroom)} more into your NPS account (still within the 14% of Basic+DA limit). This cuts your taxable income by that amount, saving <span class="opt-saving">~${fmt(potentialSaving)}</span> in tax. Works in both regimes.` });
   }
 
   if (recommended === 'old') {
@@ -1755,16 +1873,56 @@ function buildOptimizationTips(data) {
   }
 
   if (recommended === 'new' && o.total - n.total < 50000) {
-    tips.push({ title: 'You\'re Close to the Break-even Point', saving: 0, body: `New Regime is better by only <strong>${fmt(o.total - n.total)}</strong>. If you can add ${fmt(Math.round((o.total - n.total) / 0.20))} more in 80C/80D deductions, Old Regime becomes equally beneficial — worth re-checking after maximising 80D health insurance premiums.` });
+    tips.push({ title: 'You\'re Close to the Break-even Point', saving: 0, body: `New Regime is better by only <strong>${fmt(o.total - n.total)}</strong>. If you can add ${fmt(Math.round((o.total - n.total) / 0.20))} more in 80C/80D deductions, Old Regime becomes equally beneficial. Worth re-checking after maximising 80D health insurance premiums.` });
   }
 
   const ltcg = v('ltcg112A');
   if (ltcg > 0 && ltcg < 125000) {
     const taxFreeRoom = 125000 - ltcg;
-    tips.push({ title: 'LTCG Harvesting Opportunity', saving: 0, body: `You've booked ${fmt(ltcg)} in equity LTCG — but the annual ₹1.25L exemption allows <strong>${fmt(taxFreeRoom)} more</strong> completely tax-free this year. Sell and rebuy qualifying equity holdings before 31 March to lock in this exemption without triggering tax.` });
+    tips.push({ title: 'LTCG Harvesting Opportunity', saving: 0, body: `You've booked ${fmt(ltcg)} in equity LTCG, but the annual ₹1.25L exemption allows <strong>${fmt(taxFreeRoom)} more</strong> completely tax-free this year. Sell and rebuy qualifying equity holdings before 31 March to lock in this exemption without triggering tax.` });
   }
 
   return tips;
+}
+
+// ─── Break-even insight card ─────────────────────────────────────────────────
+function buildBreakEvenCard(data, recommended) {
+  const { new: n, old: o } = data;
+  const diff  = o.total - n.total; // positive → new wins
+  const saved = Math.abs(diff);
+  if (saved < 500) return '';
+
+  const marginalRateOld = o.taxableNormal > 1000000 ? 0.30
+                        : o.taxableNormal > 500000  ? 0.20 : 0.05;
+  const breakEvenDelta = Math.round(saved / (marginalRateOld * 1.04));
+  const currentDed     = Math.round(o.deductions || 0);
+  const breakEvenTotal = Math.round(currentDed + (diff > 0 ? breakEvenDelta : -breakEvenDelta));
+
+  const scaleIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M3 9l9-6 9 6M3 15l9 6 9-6"/></svg>`;
+
+  if (recommended === 'new') {
+    const needMore = breakEvenDelta;
+    const dedList  = currentDed < 150000
+      ? `Start with 80C (up to ₹1.5L), then 80D health insurance (up to ₹75K), and Home Loan interest u/s 24(b) (up to ₹2L). HRA exemption, if applicable, can add significantly more.`
+      : `You're already claiming ₹${Math.round(currentDed/100000*10)/10}L. Adding Home Loan interest u/s 24(b), HRA exemption, or maxing 80D could close the remaining gap.`;
+    return `<div class="card">
+      <div class="card-title">${scaleIcon} When does Old Regime catch up?</div>
+      <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.65;margin-bottom:12px;">
+        At your income, Old Regime needs roughly <strong style="color:var(--text)">₹${Math.round(breakEvenTotal/1000)*1000 > breakEvenTotal ? fmt(breakEvenTotal) : fmt(breakEvenTotal)} in total deductions</strong> to match New Regime.
+        You're currently at <strong style="color:var(--text)">${fmt(currentDed)}</strong>${needMore > 0 ? ` — <strong style="color:var(--old-color)">${fmt(needMore)} more</strong> would flip the recommendation.` : `.`}
+      </p>
+      <div style="font-size:12px;color:var(--text-secondary);background:var(--surface2);padding:10px 12px;border-radius:var(--r-sm);line-height:1.6;">${dedList}</div>
+    </div>`;
+  } else {
+    return `<div class="card">
+      <div class="card-title">${scaleIcon} When does New Regime catch up?</div>
+      <p style="font-size:13.5px;color:var(--text-secondary);line-height:1.65;margin-bottom:12px;">
+        Old Regime wins because of your <strong style="color:var(--text)">${fmt(currentDed)}</strong> in deductions.
+        If your deductions ever fall below <strong style="color:var(--text)">~${fmt(breakEvenTotal)}</strong> — for example, after paying off a home loan or stopping 80C investments — New Regime becomes the better pick.
+      </p>
+      <div style="font-size:12px;color:var(--text-secondary);background:var(--surface2);padding:10px 12px;border-radius:var(--r-sm);line-height:1.6;">Worth re-evaluating every year after the Budget, since slab rates can change and so can your deduction profile.</div>
+    </div>`;
+  }
 }
 
 function buildBreakdownTable(data, recommended) {
@@ -1808,7 +1966,7 @@ function buildBreakdownTable(data, recommended) {
   return `<div class="card">
     <div class="card-title">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      Tracing every rupee — from gross income to final tax liability
+      Full breakdown: gross income to final tax liability
     </div>
     <div class="bk-grid">
       ${buildCol(n, 'new', recommended === 'new')}
