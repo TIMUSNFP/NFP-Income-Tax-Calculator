@@ -1,0 +1,21 @@
+# IDE / editor
+.vscode/
+.cursor/
+.idea/
+
+# AI agent internals
+.agents/
+.claude/
+.jetro/
+.windsurfrules
+AGENT.md
+.mcp.json
+
+# Misc
+*.pdf
+Guideline
+projects/
+data/
+node_modules/
+.DS_Store
+Thumbs.db
