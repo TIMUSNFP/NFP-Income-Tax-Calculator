@@ -143,8 +143,41 @@ header {
   padding: 0 28px 80px;
 }
 
-/* calc-col is a transparent wrapper — no layout effect in single-column mode */
+/* calc-col is a transparent wrapper — no layout effect */
 .calc-col { display: contents; }
+
+/* ─── Calc layout: form left | results right ─────────────────────────────────── */
+.calc-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Collapse form to single column since each side is now ~450px */
+.calc-layout .inputs-grid {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.calc-layout .inputs-panel {
+  padding: 22px 22px 20px;
+}
+
+/* Results panel sticky — stays in view as long form scrolls */
+.calc-layout .results-panel {
+  position: sticky;
+  top: 76px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.calc-layout .results-panel::-webkit-scrollbar { width: 4px; }
+.calc-layout .results-panel::-webkit-scrollbar-track { background: transparent; }
+.calc-layout .results-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
 /* ─── Input Panel (below results) ───────────────────────────────────────────── */
 .inputs-panel {
@@ -803,6 +836,8 @@ header {
   .inputs-grid { grid-template-columns: 1fr; gap: 0; }
   .inputs-panel { padding: 20px 16px; border-radius: var(--r-lg); }
   .results-panel { padding: 20px 0 4px; }
+  .calc-layout { grid-template-columns: 1fr; gap: 0; }
+  .calc-layout .results-panel { position: static; max-height: none; overflow-y: visible; padding: 20px 0 4px; }
   header { padding: 0 16px; }
   .h-desc { display: none; }
   .h-divider { display: none; }
@@ -1057,6 +1092,9 @@ header {
     <span class="live-indicator"><span class="live-dot"></span>Updates live as you type</span>
   </div>
 
+  <!-- ===== FORM + RESULTS SIDE BY SIDE ===== -->
+  <div class="calc-layout">
+
   <!-- ===== INPUT PANEL ===== -->
   <div class="inputs-panel" id="calculator" role="form" aria-label="Income and deduction inputs">
   <div class="inputs-grid">
@@ -1240,6 +1278,8 @@ header {
       <p>Enter your income above — your full tax analysis, regime comparison, and action plan appear here instantly.</p>
     </div>
   </div>
+
+  </div><!-- /calc-layout -->
 
   </div><!-- /calc-col -->
 
