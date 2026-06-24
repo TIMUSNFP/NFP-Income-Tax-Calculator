@@ -88,38 +88,14 @@ header {
 .h-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
   text-decoration: none;
-}
-
-.h-logo-icon {
-  width: 34px;
-  height: 34px;
-  background: var(--primary);
-  border-radius: var(--r-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   flex-shrink: 0;
 }
 
-.h-logo-icon svg { color: #fff; }
-
-.h-logo-text { display: flex; flex-direction: column; }
-
-.h-brand {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--primary);
-  letter-spacing: -0.3px;
-  line-height: 1.1;
-}
-
-.h-sub {
-  font-size: 10.5px;
-  color: var(--muted);
-  font-weight: 400;
-  letter-spacing: 0.1px;
+.h-logo img {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .h-divider {
@@ -938,20 +914,9 @@ header {
 
 <!-- ===== HEADER ===== -->
 <header>
-  <div class="h-logo">
-    <div class="h-logo-icon">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <rect x="4" y="2" width="16" height="20" rx="2"/>
-        <line x1="8" y1="10" x2="16" y2="10"/>
-        <line x1="8" y1="14" x2="16" y2="14"/>
-        <line x1="8" y1="18" x2="12" y2="18"/>
-      </svg>
-    </div>
-    <div class="h-logo-text">
-      <span class="h-brand">NFP Tax Calculator</span>
-      <span class="h-sub">Network FP · India</span>
-    </div>
-  </div>
+  <a class="h-logo" href="https://networkfp.com" target="_blank" rel="noopener" aria-label="Network FP">
+    <img src="Images/NetworkFP Logo.png" alt="Network FP — Personal Finance Professionals">
+  </a>
 
   <div class="h-divider" aria-hidden="true"></div>
 
