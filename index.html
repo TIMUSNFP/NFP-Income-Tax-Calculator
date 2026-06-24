@@ -146,26 +146,37 @@ header {
 /* calc-col is a transparent wrapper — no layout effect */
 .calc-col { display: contents; }
 
-/* ─── Calc layout: form left | results right ─────────────────────────────────── */
+/* ─── Calc layout: form centred by default, side-by-side once results exist ───── */
+
+/* Default — no results yet: form centred, results hidden */
 .calc-layout {
+  display: block;
+}
+
+.calc-layout .inputs-panel {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.calc-layout .results-panel {
+  display: none;
+}
+
+/* has-results: switch to 55/45 grid, show results sticky on right */
+.calc-layout.has-results {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 55fr 45fr;
   gap: 28px;
   align-items: start;
 }
 
-/* Collapse form to single column since each side is now ~450px */
-.calc-layout .inputs-grid {
-  grid-template-columns: 1fr;
-  gap: 0;
+.calc-layout.has-results .inputs-panel {
+  max-width: none;
+  margin: 0;
 }
 
-.calc-layout .inputs-panel {
-  padding: 22px 22px 20px;
-}
-
-/* Results panel sticky — stays in view as long form scrolls */
-.calc-layout .results-panel {
+.calc-layout.has-results .results-panel {
+  display: block;
   position: sticky;
   top: 76px;
   max-height: calc(100vh - 90px);
@@ -175,9 +186,9 @@ header {
   scrollbar-color: var(--border) transparent;
 }
 
-.calc-layout .results-panel::-webkit-scrollbar { width: 4px; }
-.calc-layout .results-panel::-webkit-scrollbar-track { background: transparent; }
-.calc-layout .results-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.calc-layout.has-results .results-panel::-webkit-scrollbar { width: 4px; }
+.calc-layout.has-results .results-panel::-webkit-scrollbar-track { background: transparent; }
+.calc-layout.has-results .results-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
 /* ─── Input Panel (below results) ───────────────────────────────────────────── */
 .inputs-panel {
@@ -836,8 +847,9 @@ header {
   .inputs-grid { grid-template-columns: 1fr; gap: 0; }
   .inputs-panel { padding: 20px 16px; border-radius: var(--r-lg); }
   .results-panel { padding: 20px 0 4px; }
-  .calc-layout { grid-template-columns: 1fr; gap: 0; }
-  .calc-layout .results-panel { position: static; max-height: none; overflow-y: visible; padding: 20px 0 4px; }
+  .calc-layout.has-results { grid-template-columns: 1fr; gap: 0; }
+  .calc-layout .inputs-panel { max-width: 100%; margin: 0; }
+  .calc-layout.has-results .results-panel { position: static; max-height: none; overflow-y: visible; padding: 20px 0 4px; }
   header { padding: 0 16px; }
   .h-desc { display: none; }
   .h-divider { display: none; }
@@ -1499,22 +1511,14 @@ function render() {
   const data  = compute();
   const panel = document.getElementById('results');
 
+  const layout = document.querySelector('.calc-layout');
+
   if (!data) {
-    panel.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="4" y="2" width="16" height="20" rx="2"/>
-            <line x1="8" y1="10" x2="16" y2="10"/>
-            <line x1="8" y1="14" x2="16" y2="14"/>
-            <line x1="8" y1="18" x2="12" y2="18"/>
-          </svg>
-        </div>
-        <h2>Enter your income to calculate tax</h2>
-        <p>Both New &amp; Old Regime calculated instantly — auto-recommends the better one for you.</p>
-      </div>`;
+    layout.classList.remove('has-results');
     return;
   }
+
+  layout.classList.add('has-results');
 
   const { new: n, old: o } = data;
   const recommended = n.total <= o.total ? 'new' : 'old';
